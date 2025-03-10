@@ -38,6 +38,24 @@ export default function Dashboard() {
       alert("Error downloading image.");
     }
   };
+  // ✅ Tambahkan fungsi handleDelete sebelum return()
+const handleDelete = async (id) => {
+  if (!confirm("Are you sure you want to delete this article?")) return;
+
+  try {
+    const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+
+    if (res.ok) {
+      setArticles((prevArticles) => prevArticles.filter((article) => article._id !== id));
+    } else {
+      alert("Failed to delete article.");
+    }
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    alert("An error occurred while deleting the article.");
+  }
+};
+
 
   // ✅ Filter & Search Logic
   const filteredArticles = articles
