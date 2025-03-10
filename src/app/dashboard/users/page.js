@@ -33,10 +33,26 @@ export default function UsersPage() {
     setMessage(data.message);
 
     if (res.ok) {
-      setUsers([...users, { name, email, role: "editor" }]);
+      setUsers([...users, { _id: data.userId, name, email, role: "editor" }]);
       setName("");
       setEmail("");
       setPassword("");
+    }
+  };
+
+  const handleDelete = async (userId) => {
+    if (!confirm("Are you sure you want to delete this editor?")) return;
+
+    const res = await fetch("/api/users", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (res.ok) {
+      setUsers(users.filter((user) => user._id !== userId));
+    } else {
+      alert("Failed to delete editor.");
     }
   };
 
@@ -87,12 +103,24 @@ export default function UsersPage() {
       {/* List Editor */}
       <h2 className="text-2xl font-bold mt-10">📜 Registered Editors</h2>
       <div className="mt-4 space-y-3">
-        {users.map((user) => (
-          <div key={user.email} className="bg-gray-800 p-3 rounded-lg flex justify-between items-center">
-            <p>{user.name} - <span className="text-yellow-400">{user.email}</span></p>
-            <span className="px-3 py-1 bg-gray-700 text-white rounded">{user.role}</span>
-          </div>
-        ))}
+        {users.length > 0 ? (
+          users.map((user) => (
+            <div key={user._id} className="bg-gray-800 p-3 rounded-lg flex justify-between items-center">
+              <p>{user.name} - <span className="text-yellow-400">{user.email}</span></p>
+              <div className="flex gap-3">
+                <span className="px-3 py-1 bg-gray-700 text-white rounded">{user.role}</span>
+                <button
+                  onClick={() => handleDelete(user._id)}
+                  className="px-3 py-1 bg-red-500 rounded hover:bg-red-600 transition"
+                >
+                  🗑 Delete
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-red-400">No editors registered yet.</p>
+        )}
       </div>
     </div>
   );
