@@ -23,11 +23,11 @@ export default function DashboardLayout({ children }) {
           <Link href="/dashboard">
             <p className="block px-4 py-2 rounded bg-gray-700 hover:bg-blue-500 transition">📜 Articles</p>
           </Link>
-          {session.user.role === "admin" && (
+          
             <Link href="/dashboard/new">
               <p className="block px-4 py-2 rounded bg-gray-700 hover:bg-green-500 transition">➕ Add Article</p>
             </Link>
-          )}
+          
           {session.user.role === "admin" && (
             <Link href="/dashboard/settings">
               <p className="block px-4 py-2 rounded bg-gray-700 hover:bg-yellow-500 transition">⚙️ Settings</p>
