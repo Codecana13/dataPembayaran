@@ -14,9 +14,9 @@ export async function sendPasswordResetEmail(email, resetToken) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: "Permintaan Pergantian Password",
+    subject: "Password Reset Request",
     text: `Click the link below to reset your password:\n\n${resetLink}`,
-    html: `<p>Click <a href="${resetLink}">Disini</a> untuk menggati password.</p>`,
+    html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
   };
 
   try {
